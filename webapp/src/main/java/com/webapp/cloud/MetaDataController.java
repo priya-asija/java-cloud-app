@@ -16,15 +16,21 @@ public class MetaDataController {
     private final String METADATA_BASE = "http://169.254.169.254/latest/meta-data/placement/";
 
     @GetMapping("/metadata")
-    public Map<String,String> getMetaData() throws Exception{
+    public Map<String,String> getMetaData() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
-        String az = getMetaDataValue(client,"availability-zone");
-        String region = az.substring(0,az.length()-1);
-        Map<String,String> result = new HashMap<>();
-        result.put("availabilityZone",az);
-        result.put("region",region);
-        return result;
+        String az = getMetaDataValue(client, "availability-zone");
+        Map<String, String> result = new HashMap<>();
+        if (az != null && az.length() > 1) {
+            String region = az.substring(0, az.length() - 1);
+            result.put("availabilityZone", az);
+            result.put("region", region);
+        } else {
+            result.put("availabilityZone", "unknown");
+            result.put("region", "unknown");
+        }
+    return result;
     }
+
 
     private String getMetaDataValue(HttpClient client, String path) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
