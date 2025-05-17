@@ -5,13 +5,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.example</groupId>
-		<artifactId>java-cloud-app</artifactId>
-		<version>1.0.0</version>
-		<relativePath>../pom.xml</relativePath>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.1.2</version>
+		<relativePath>../pom.xml</relativePath> <!-- optional, if your parent is in ../pom.xml -->
 	</parent>
 
+	<groupId>com.example</groupId>
 	<artifactId>webapp</artifactId>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
