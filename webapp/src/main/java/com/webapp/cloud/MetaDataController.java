@@ -33,11 +33,25 @@ public class MetaDataController {
 
 
     private String getMetaDataValue(HttpClient client, String path) throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
+        // Step 1: Get the token
+        HttpRequest tokenRequest = HttpRequest.newBuilder()
+                .uri(URI.create("http://169.254.169.254/latest/api/token"))
+                .header("X-aws-ec2-metadata-token-ttl-seconds", "21600")
+                .method("PUT", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> tokenResponse = client.send(tokenRequest, HttpResponse.BodyHandlers.ofString());
+        String token = tokenResponse.body();
+
+        // Step 2: Use the token to get metadata
+        HttpRequest metadataRequest = HttpRequest.newBuilder()
                 .uri(URI.create(METADATA_BASE + path))
+                .header("X-aws-ec2-metadata-token", token)
                 .GET()
                 .build();
-        return client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+
+        HttpResponse<String> metadataResponse = client.send(metadataRequest, HttpResponse.BodyHandlers.ofString());
+        return metadataResponse.body();
     }
 
 }
