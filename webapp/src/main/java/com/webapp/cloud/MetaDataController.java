@@ -1,5 +1,6 @@
 package com.webapp.cloud;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -14,6 +15,7 @@ public class MetaDataController {
 
     private final String METADATA_BASE = "http://169.254.169.254/latest/meta-data/placement/";
 
+    @GetMapping("/metadata")
     public Map<String,String> getMetaData() throws Exception{
         HttpClient client = HttpClient.newHttpClient();
         String az = getMetaDataValue(client,"availability-zone");
