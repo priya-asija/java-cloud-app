@@ -30,6 +30,6 @@ jobs:
 
       - name: Upload artifact to S3
         env:
-          S3_BUCKET: my-java-webapp-artifacts
+          S3_BUCKET: my-java-webapp-artifacts-1
         run: |
           aws s3 cp webapp/target/webapp-1.0.0.jar s3://$S3_BUCKET/webapp.jar
